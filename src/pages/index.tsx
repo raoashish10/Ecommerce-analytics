@@ -10,10 +10,22 @@ const products = [
 ];
 
 export default function EcommerceApp() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<{ id: number; name: string; price: number }[]>([]);
 
-  const addToCart = (product) => {
-    setCart((prev) => [...prev, product]);
+  const addToCart = async (product: { id: number; name: string; price: number }) => {
+    setCart((prev: { id: number; name: string; price: number }[]) => [...prev, product]);
+    const payload = {
+      "userId": "user123",
+      "event": "add_to_cart",
+      "productId": product.id
+    }
+    await fetch("/api/track", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   const removeFromCart = (index: number) => {
@@ -47,7 +59,7 @@ export default function EcommerceApp() {
             {cart.map((item, index) => (
               <li key={index} className="flex justify-between py-1">
                 {item.name} - ${item.price}
-                <Button variant="outline" size="sm" onClick={() => removeFromCart(index)}>
+                <Button variant="outline" onClick={() => removeFromCart(index)}>
                   Remove
                 </Button>
               </li>
