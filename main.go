@@ -29,7 +29,7 @@ var redisClient = redis.NewClient(&redis.Options{
 
 // Kafka producer setup
 func kafkaProducer(event AnalyticsEvent) error {
-	producer, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "kafka:29092"})
+	producer, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "kafka:9092"})
 	if err != nil {
 		return err
 	}
