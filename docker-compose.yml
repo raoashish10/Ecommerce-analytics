@@ -1,5 +1,12 @@
-version: "3"
+version: "3.8"
 services:
+  redis:
+    image: redis
+    networks:
+      - ecommerce-analytics
+    ports:
+      - "6379:6379"
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -25,6 +32,16 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  go-api:
+    build: .
+    networks:
+      - ecommerce-analytics
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=9092
 
 networks:
   ecommerce-analytics:
