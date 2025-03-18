@@ -82,6 +82,8 @@ func trackEvent(c *gin.Context) {
 	// Save event to Redis for real-time analytics
 	if err := saveToRedis(event); err != nil {
 		log.Println("Redis Error:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Redis Error " + err.Error()})
+		return
 	}
 
 	// Send event to Kafka
