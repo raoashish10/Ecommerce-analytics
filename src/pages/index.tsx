@@ -4,22 +4,39 @@ import { Button } from "@/components/button";
 import { ShoppingCart } from "lucide-react";
 
 const products = [
-  { id: 1, name: "Laptop", price: 999 },
-  { id: 2, name: "Smartphone", price: 499 },
-  { id: 3, name: "Headphones", price: 199 },
+  { id: "1", name: "Laptop", price: 999 },
+  { id: "2", name: "Smartphone", price: 499 },
+  { id: "3", name: "Headphones", price: 199 },
+  { id: "4", name: "Tablet", price: 299 },
+  { id: "5", name: "Smartwatch", price: 149 },
+  { id: "6", name: "Keyboard", price: 59 },
+  { id: "7", name: "Mouse", price: 29 },
+  { id: "8", name: "Bluetooth Speaker", price: 79 },
+  { id: "9", name: "Monitor", price: 199 },
+  { id: "10", name: "Printer", price: 129 },
+  { id: "11", name: "External Hard Drive", price: 129 },
+  { id: "12", name: "USB Flash Drive", price: 19 },
+  { id: "13", name: "Webcam", price: 49 },
+  { id: "14", name: "Microphone", price: 29 },
+  { id: "15", name: "Portable Speaker", price: 79 },
+  { id: "16", name: "Smart TV", price: 499 },
+  { id: "17", name: "Gaming Console", price: 399 },
+  { id: "18", name: "VR Headset", price: 199 },
+  { id: "19", name: "Smart Home Hub", price: 149 },
+  { id: "20", name: "Smart Thermostat", price: 129 },
 ];
 
 export default function EcommerceApp() {
-  const [cart, setCart] = useState<{ id: number; name: string; price: number }[]>([]);
+  const [cart, setCart] = useState<{ id: string; name: string; price: number }[]>([]);
 
-  const addToCart = async (product: { id: number; name: string; price: number }) => {
-    setCart((prev: { id: number; name: string; price: number }[]) => [...prev, product]);
+  const addToCart = (product: { id: string; name: string; price: number }) => {
+    setCart((prev: { id: string; name: string; price: number }[]) => [...prev, product]);
     const payload = {
       "userId": "user123",
       "event": "add_to_cart",
       "productId": product.id
     }
-    await fetch("/api/track", {
+    fetch("/api/track", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
@@ -29,7 +46,20 @@ export default function EcommerceApp() {
   };
 
   const removeFromCart = (index: number) => {
+    const product = cart[index];
     setCart((prev) => prev.filter((_, i) => i !== index));
+    const payload = {
+      "userId": "user123",
+      "event": "remove_from_cart",
+      "productId": product.id
+    }
+    fetch("/api/track", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (
