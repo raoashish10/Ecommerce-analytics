@@ -37,6 +37,8 @@ services:
     build: .
     networks:
       - ecommerce-analytics
+    ports:
+      - "8080:8080"
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
