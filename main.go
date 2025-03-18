@@ -23,13 +23,13 @@ type AnalyticsEvent struct {
 
 // Redis client setup
 var redisClient = redis.NewClient(&redis.Options{
-	Addr: "localhost:6379",
+	Addr: "redis:6379",
 	DB:   0,
 })
 
 // Kafka producer setup
 func kafkaProducer(event AnalyticsEvent) error {
-	producer, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "localhost:29092"})
+	producer, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "kafka:29092"})
 	if err != nil {
 		return err
 	}
