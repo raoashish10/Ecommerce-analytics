@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/449824487186474814/6f1e5a642dd24d68ba88b1ca484a5825/artifacts
+end_time: 1744520846701
+entry_point_name: ''
+experiment_id: '449824487186474814'
+lifecycle_stage: active
+run_id: 6f1e5a642dd24d68ba88b1ca484a5825
+run_name: sassy-frog-161
+run_uuid: 6f1e5a642dd24d68ba88b1ca484a5825
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1744520846637
+status: 4
+tags: []
+user_id: ashish

@@ -1,0 +1,8 @@
+mlflow
+ray
+pandas
+numpy
+implicit
+fastapi
+uvicorn
+confluent-kafka

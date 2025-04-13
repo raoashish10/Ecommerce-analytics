@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/449824487186474814/6e95d4e267b14f959a7f54b4aacb4568/artifacts
+end_time: 1744521074586
+entry_point_name: ''
+experiment_id: '449824487186474814'
+lifecycle_stage: active
+run_id: 6e95d4e267b14f959a7f54b4aacb4568
+run_name: zealous-croc-826
+run_uuid: 6e95d4e267b14f959a7f54b4aacb4568
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1744521074330
+status: 4
+tags: []
+user_id: ashish
