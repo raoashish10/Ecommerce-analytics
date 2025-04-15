@@ -1,0 +1,10 @@
+userId,event,productId,timestamp
+user123,view_product,7,1744511912
+user123,view_product,7,1744512738
+user123,view_product,6,1744512776
+user123,view_product,2,1744512785
+user456,view_product,1,1744599293
+user456,view_product,8,1744599307
+user789,view_product,4,1744599316
+user789,view_product,1,1744602093
+user789,view_product,8,1744602102

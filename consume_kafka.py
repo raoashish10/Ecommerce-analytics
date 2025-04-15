@@ -6,26 +6,26 @@ import pandas as pd
 
 
 
-# Kafka consumer configuration
-consumer_config = {
-    'bootstrap.servers': 'localhost:29092',
-    'group.id': 'test-reconsume-group-' + timestamp,  # Unique group to force reconsumption
-    'auto.offset.reset': 'earliest',  # Start from earliest
-    'enable.auto.commit': False  # Disable auto commit to prevent skipping
-}
-
-# Topic to consume
-TOPIC = "ecommerce-analytics"
-
-# Initialize consumer
-consumer = Consumer(consumer_config)
-consumer.subscribe([TOPIC])
-
-print(f"Subscribed to topic '{TOPIC}'...")
-
 
 def main(prefix):
-    # Current timestamped folder
+    # Kafka consumer configuration
+    consumer_config = {
+        'bootstrap.servers': 'localhost:29092',
+        'group.id': 'test-reconsume-group-' + prefix,  # Unique group to force reconsumption
+        'auto.offset.reset': 'earliest',  # Start from earliest
+        'enable.auto.commit': False  # Disable auto commit to prevent skipping
+    }
+
+    # Topic to consume
+    TOPIC = "ecommerce-analytics"
+
+    # Initialize consumer
+    consumer = Consumer(consumer_config)
+    consumer.subscribe([TOPIC])
+
+    print(f"Subscribed to topic '{TOPIC}'...")
+
+        # Current timestamped folder
     output_dir = f"data/{prefix}"
     os.makedirs(output_dir, exist_ok=True)
 
