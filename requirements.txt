@@ -6,3 +6,4 @@ implicit
 fastapi
 uvicorn
 confluent-kafka
+redis

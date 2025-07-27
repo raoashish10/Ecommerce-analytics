@@ -1,3 +1,5 @@
 scheduler.log
 mlruns
 mlartifacts
+.next/
+node_modules/
