@@ -40,10 +40,15 @@ export const trackEvent = async (eventData: Omit<TrackingEvent, "userId">) => {
     })
 
     if (!response.ok) {
-      console.error("Tracking failed:", response.statusText)
+      const errorData = await response.json()
+      console.error("Tracking failed:", response.status, errorData)
+      return false
     }
+    
+    return true
   } catch (error) {
     console.error("Error tracking event:", error)
+    return false
   }
 }
 

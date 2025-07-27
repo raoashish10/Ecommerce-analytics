@@ -4,7 +4,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
 
-    // Make a request to the Go API
+    // Send all the event data to the Go API (it now handles all fields)
     const response = await fetch("http://localhost:8080/api/track", {
       method: "POST",
       headers: {
@@ -13,8 +13,16 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(body),
     })
 
-    // Forward the response from the Go API
+    // Get the response data
     const data = await response.json()
+    
+    // If the response is not ok, return the error message
+    if (!response.ok) {
+      console.error("Go API Error:", data)
+      return NextResponse.json(data, { status: response.status })
+    }
+
+    // Forward the successful response from the Go API
     return NextResponse.json(data, { status: response.status })
   } catch (error) {
     console.error("Error calling Go API:", error)
