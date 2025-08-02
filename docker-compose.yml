@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  mlflow-recommender:
+    build:
+      context: .   # use current directory with your Dockerfile
+    container_name: mlflow-service
+    ports:
+      - "5001:5001"
+    networks:
+      - ecommerce-analytics-network
+    restart: unless-stopped
+
+networks:
+  mlflow-network:
+    driver: bridge

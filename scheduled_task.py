@@ -22,17 +22,17 @@ def schedule_tasks():
     now = str(datetime.now())
     prefix = now.replace(" ", "/")
 
-    while True:
-        # Call the `consume_kafka_task` periodically (e.g., every 5 minutes)
-        print("Scheduling Kafka Consumer Task...")
-        ray.get(consume_kafka_task.remote(prefix))
+    # while True:
+    # Call the `consume_kafka_task` periodically (e.g., every 5 minutes)
+    print("Scheduling Kafka Consumer Task...")
+    ray.get(consume_kafka_task.remote(prefix))
 
-        # Call the `retrain_model` periodically (e.g., every 30 minutes)
-        print("Scheduling Model Retraining Task...")
-        ray.get(retrain_model.remote(prefix))
+    # Call the `retrain_model` periodically (e.g., every 30 minutes)
+    print("Scheduling Model Retraining Task...")
+    ray.get(retrain_model.remote(prefix))
 
-        # Sleep for the desired time interval before executing tasks again
-        time.sleep(30 * 60)  # Sleep for 5 minutes before calling the tasks again
+    # Sleep for the desired time interval before executing tasks again
+    # time.sleep(30 * 60)  # Sleep for 5 minutes before calling the tasks again
 
 if __name__ == "__main__":
     schedule_tasks()

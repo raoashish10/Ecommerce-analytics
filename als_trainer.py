@@ -7,11 +7,17 @@ import pandas as pd
 import redis
 import json
 import pickle
+import os
 
-# Enable MLflow auto logging
-# Change if using remote MLflow server
-mlflow.set_tracking_uri("http://localhost:5001")
-mlflow.set_experiment("Product Recommendation Experiment")
+# Enable MLflow auto logging (optional)
+try:
+    # Change if using remote MLflow server
+    mlflow.set_tracking_uri("http://localhost:5001")
+    mlflow.set_experiment("Product Recommendation Experiment")
+    MLFLOW_AVAILABLE = True
+except Exception as e:
+    print(f"MLflow not available: {e}")
+    MLFLOW_AVAILABLE = False
 
 # Redis connection
 redis_client = redis.Redis(host='localhost', port=6379, db=0)
@@ -116,25 +122,6 @@ def store_recommendations_in_redis(model, user_map, product_map, prefix="recomme
     except Exception as e:
         print(f"Error storing recommendations in Redis: {e}")
 
-
-def get_recommendations_from_redis(user_id, prefix="recommendations"):
-    """
-    Get recommendations for a user from Redis
-    """
-    try:
-        redis_key = f"{prefix}:user:{user_id}"
-        recommendations = redis_client.get(redis_key)
-
-        if recommendations:
-            return json.loads(recommendations)
-        else:
-            return []
-
-    except Exception as e:
-        print(f"Error getting recommendations from Redis: {e}")
-        return []
-
-
 def train_als(prefix, factors=50, regularization=0.1):
     # Load Data
     df = pd.read_csv(f"data/{prefix}/events.csv")
@@ -165,10 +152,40 @@ def train_als(prefix, factors=50, regularization=0.1):
         if np.sum(test_matrix[user_id]) > 0
     }
 
-    with mlflow.start_run():
-        mlflow.log_param("factors", factors)
-        mlflow.log_param("regularization", regularization)
+    if MLFLOW_AVAILABLE:
+        with mlflow.start_run():
+            mlflow.log_param("factors", factors)
+            mlflow.log_param("regularization", regularization)
 
+            print(f"train_matrix_csr.shape = {train_matrix_csr.shape}")
+            print(f"Users in ground_truth: {list(ground_truth.keys())}")
+
+            model = AlternatingLeastSquares(
+                factors=factors, regularization=regularization)
+            model.fit(train_matrix_csr)
+
+            print(ground_truth)
+            print(train_matrix_csr)
+            # Predictions
+            user_recs = {
+                user: [item for item in model.recommend(
+                    user, train_matrix_csr[user], N=3, filter_already_liked_items=True)]
+                for user in ground_truth
+            }
+
+            print("usr recs ", user_recs)
+
+            recall = recall_at_k(user_recs, ground_truth, k=3)
+            mlflow.log_metric("recall_at_5", recall)
+            print(f"Recall@10: {recall:.4f}")
+
+            # Store recommendations in Redis
+            store_recommendations_in_redis(
+                model, user_map, product_map, prefix)
+
+            mlflow.sklearn.log_model(model, "als_recommender")
+    else:
+        # Run without MLflow
         print(f"train_matrix_csr.shape = {train_matrix_csr.shape}")
         print(f"Users in ground_truth: {list(ground_truth.keys())}")
 
@@ -188,12 +205,9 @@ def train_als(prefix, factors=50, regularization=0.1):
         print("usr recs ", user_recs)
 
         recall = recall_at_k(user_recs, ground_truth, k=3)
-        mlflow.log_metric("recall_at_5", recall)
         print(f"Recall@10: {recall:.4f}")
 
         # Store recommendations in Redis
         store_recommendations_in_redis(model, user_map, product_map, prefix)
-
-        mlflow.sklearn.log_model(model, "als_recommender")
 
     return model
