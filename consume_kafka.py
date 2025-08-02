@@ -10,7 +10,7 @@ import pandas as pd
 def main(prefix):
     # Kafka consumer configuration
     consumer_config = {
-        'bootstrap.servers': 'localhost:29092',
+        'bootstrap.servers': 'kafka:9092',
         'group.id': 'test-reconsume-group-' + prefix,  # Unique group to force reconsumption
         'auto.offset.reset': 'earliest',  # Start from earliest
         'enable.auto.commit': False  # Disable auto commit to prevent skipping
