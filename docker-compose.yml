@@ -3,7 +3,7 @@ services:
   redis:
     image: redis
     networks:
-      - ecommerce-analytics
+      - ecommerce-analytics-network
     ports:
       - "6379:6379"
 
@@ -13,7 +13,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - ecommerce-analytics
+      - ecommerce-analytics-network
     ports:
       - "22181:2181"
 
@@ -22,7 +22,7 @@ services:
     depends_on:
       - zookeeper
     networks:
-      - ecommerce-analytics
+      - ecommerce-analytics-network
     ports:
       - "29092:29092"
     environment:
@@ -36,7 +36,7 @@ services:
   go-api:
     build: .
     networks:
-      - ecommerce-analytics
+      - ecommerce-analytics-network
     ports:
       - "8080:8080"
     environment:
@@ -46,5 +46,5 @@ services:
       - KAFKA_PORT=9092
 
 networks:
-  ecommerce-analytics:
+  ecommerce-analytics-network:
     driver: bridge
