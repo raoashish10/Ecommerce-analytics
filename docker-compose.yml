@@ -12,5 +12,5 @@ services:
     restart: unless-stopped
 
 networks:
-  mlflow-network:
+  ecommerce-analytics-network:
     driver: bridge
