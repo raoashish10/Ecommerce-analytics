@@ -12,9 +12,9 @@ def consume_kafka_task(prefix):
 
 @ray.remote
 def retrain_model(prefix):
-    from als_trainer import train_als  # Import train_als function
+    from als_trainer import train_als, tune_als  # Import train_als function
     print("Retraining ALS Model...")
-    train_als(prefix)
+    tune_als(prefix)
     print("Model Training Complete!")
 
 # Task execution loop
@@ -32,7 +32,7 @@ def schedule_tasks():
     ray.get(retrain_model.remote(prefix))
 
     # Sleep for the desired time interval before executing tasks again
-    # time.sleep(30 * 60)  # Sleep for 5 minutes before calling the tasks again
+    time.sleep(5 * 60)  # Sleep for 5 minutes before calling the tasks again
 
 if __name__ == "__main__":
     schedule_tasks()

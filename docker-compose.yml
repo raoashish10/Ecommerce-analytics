@@ -4,7 +4,6 @@ services:
   mlflow-recommender:
     build:
       context: .
-    platform: linux/amd64
     container_name: mlflow-service
     ports:
       - "5001:5001"
