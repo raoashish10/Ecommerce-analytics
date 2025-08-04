@@ -9,7 +9,7 @@ It combines a Go API, Next.js frontend, Kafka, Redis, and an automated offline M
 
 * Frontend: Next.js
 * Backend: Go (Gin)
-* Messaging: Apache Kafka
+* Event Store: Apache Kafka
 * Cache: Redis
 * ML pipeline: Ray, MLflow
 * Containerization: Docker / Docker Compose
