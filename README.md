@@ -23,6 +23,14 @@ It provides REST endpoints to serve product recommendations, track clickstream e
 
 ---
 
+## **Kafka Messages**
+![kafka messages](./extra/kafka-messages.png)
+
+## **Redis Recommendation Cache**
+![redis recommendation cache](./extra/redis-product-recommendations.png)
+
+---
+
 ## 🚀 **Getting Started (Local)**
 
 This branch is intended to be run as part of the full platform using Docker Compose.
