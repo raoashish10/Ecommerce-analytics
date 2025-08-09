@@ -4,6 +4,12 @@ This project is a scalable, event-driven system that powers real-time product re
 It combines a Go API, Next.js frontend, Kafka, Redis, and an automated offline ML training pipeline built with Ray and MLflow.
 
 ---
+Branches:
+1. **frontend**: Contains Next.js frontend
+2. **api**: Contains Go API, Kafka and Redis setup
+3. **recommendation**: Contains Ray and MLFlow setup for training recommendation model
+
+---
 
 ## 🧰 **Tech Stack**
 
